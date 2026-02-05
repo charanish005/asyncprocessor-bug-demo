@@ -10,8 +10,8 @@ public class AsyncProcessor {
             .map(client -> client.retrieveAsync("hello"))
             .collect(Collectors.toList());
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                .thenApply(v -> futures.stream()
-                    .map(CompletableFuture::join)
-                    .collect(Collectors.joining(",")));
+            .thenApply(v -> futures.parallelStream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.joining(",")));
     }
 }
